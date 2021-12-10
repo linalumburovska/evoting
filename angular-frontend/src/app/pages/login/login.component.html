@@ -1,0 +1,23 @@
+<div class="container bg-light">
+  <h1 class="text-center">Welcome to Electronic Voting System</h1>
+
+
+  <button class="btn btn-primary mt-3 right width-15" routerLink="/registration">Sign up</button>
+
+  <div class="form-group margin-t">
+    <label>Email</label>
+    <input type="email" class="form-control" [(ngModel)]="email">
+  </div>
+
+  <br>
+
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" class="form-control" [(ngModel)]="password">
+  </div>
+
+  <p class="error" *ngIf="userDoesNotExist">User does not exist. Please create an account!</p>
+
+  <button class="btn btn-primary mt-3 width-15" (click)="login()">Login</button>
+
+</div>

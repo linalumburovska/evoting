@@ -1,0 +1,72 @@
+<app-navbar></app-navbar>
+
+<!-- IF TRUE ADMIN ELSE USER -->
+<div *ngIf="(user$ | async)?.adminOrUser">
+  <app-admin-panel></app-admin-panel>
+</div>
+
+<div *ngIf="!(user$ | async)?.adminOrUser">
+  <div class="container">
+    <h1>User Panel</h1>
+
+    <div *ngIf="!(user$ | async)?.finishVoting">
+      <p>Please select your vote. The active candidates are:</p>
+      <table class="table table-hover table-striped" *ngIf="candidates.length > 0">
+        <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Vote</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of candidates">
+            <td>
+              <span>{{ c.name }}</span>
+            </td>
+            <td class="link" (click)="open(mymodal, c.name, c.id)">
+              <button class="btn btn-primary mt-2 mb-2">Vote</button>
+            </td>
+          </tr>
+          </tbody>
+      </table>
+
+    </div>
+
+    <div *ngIf="(user$ | async)?.finishVoting">
+      <p class="important">Thank you for voting!</p>
+    </div>
+
+    <h5>Blocks in the e-voting system</h5>
+    <p>When your voting is successful, your vote will be added as a new block in the e-voting system.</p>
+    <app-block-view *ngFor="let block of blocks" [block]="block" (click)="showTransactions(block)">
+    </app-block-view>
+
+  </div>
+
+  <br>
+
+  <div class="container">
+    <h5>Transactions inside block </h5>
+    <app-transactions-table [transactions]="transactionsForBlock">
+
+    </app-transactions-table>
+  </div>
+
+  <ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirm vote</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"  data-bs-dismiss="modal">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        Are you sure you want to confirm your vote for <strong>{{ this.candidateName }}</strong> ?
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="saveVote()">Confirm</button>
+    </div>
+  </ng-template>
+</div>

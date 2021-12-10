@@ -1,0 +1,44 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <h1>Sign vote and create transaction</h1>
+
+  <p class="important">Selected candidate: <strong>{{ candidate }}</strong></p>
+  <p>Note: In this step, you are sending your vote to the E-voting system and you are creating a transaction for your vote!</p>
+
+  <div class="form-group">
+    <label>Your address</label>
+    <input type="text" class="form-control" [(ngModel)]="walletKey.publicKey" disabled>
+  </div>
+
+  <div class="form-group">
+    <label>To address</label>
+    <input type="text" class="form-control" [(ngModel)]="nexTx.toAddress" disabled>
+  </div>
+
+  <!-- <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="number" class="form-control" [(ngModel)]="nexTx.amount" disabled >
+  </div> -->
+
+  <button class="btn btn-primary mt-2" (click)="createTransaction()">Add Transaction</button>
+
+  <div *ngIf="pendingTransactions.length > 0" class="margin-top">
+    <app-transactions-table [transactions]="pendingTransactions">
+    </app-transactions-table>
+
+    <p>Please confirm the transaction to the system and the process finishes!</p>
+
+    <div class="form-group">
+      <label>Enter your private key</label>
+      <input type="text" class="form-control" [(ngModel)]="privateKey">
+      <button class="btn btn-primary mt-2" (click)="addPrivateKey()">Add private key</button>
+    </div>
+
+    <button class="btn btn-primary" (click)="minePendingTransactions()" [disabled]="!enableSignVote">Sign Vote and Confirm</button>
+  </div>
+
+</div>
+
+
+
+

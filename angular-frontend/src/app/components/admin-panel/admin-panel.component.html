@@ -1,0 +1,57 @@
+<div class="container">
+
+  <h1>Admin Panel</h1>
+
+  <button class="btn btn-primary mt-2 mb-2" (click)="open(mymodal, null)">Add new candidate</button>
+
+  <p>List of the active candidates:</p>
+
+  <table class="table table-hover table-striped" *ngIf="candidates.length > 0">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+    <tr *ngFor="let c of candidates">
+      <td>
+        <span>{{ c.name }}</span>
+      </td>
+      <td class="link" (click)="open(mymodal, c.id)">Edit</td>
+      <td class="link" (click)="delete(c.id)" >Delete</td>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+
+  <h5>Frequencies</h5>
+
+  <select class="form-select" [(ngModel)]="candFrequency" (change)="showCounter($event)">
+    <option disabled selected>Select text</option>
+    <option *ngFor="let cand of candidates" [value]="cand.id">
+      {{ cand.name }}
+    </option>
+  </select>
+  <p *ngIf="showNumberOfVotes">Number of votes: {{ numberOfVotes }}</p>
+
+  <ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add new candidate</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"  data-bs-dismiss="modal">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" [(ngModel)]="name" required>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="saveCandidate()">Save</button>
+    </div>
+  </ng-template>
+</div>
